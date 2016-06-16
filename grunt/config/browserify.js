@@ -4,7 +4,6 @@
 'use strict';
 
 var envify = require('envify/custom');
-var es3ify = require('es3ify');
 var grunt = require('grunt');
 var UglifyJS = require('uglify-js');
 var uglifyify = require('uglifyify');
@@ -58,7 +57,7 @@ var basic = {
   debug: false,
   standalone: 'React',
   transforms: [envify({NODE_ENV: 'development'})],
-  after: [es3ify.transform, derequire, simpleBannerify]
+  after: [derequire, simpleBannerify]
 };
 
 var min = {
@@ -69,7 +68,7 @@ var min = {
   debug: false,
   standalone: 'React',
   transforms: [envify({NODE_ENV: 'production'}), uglifyify],
-  after: [es3ify.transform, derequire, minify, bannerify]
+  after: [derequire, minify, bannerify]
 };
 
 var transformer = {
@@ -80,7 +79,7 @@ var transformer = {
   debug: false,
   standalone: 'JSXTransformer',
   transforms: [],
-  after: [es3ify.transform, derequire, simpleBannerify]
+  after: [derequire, simpleBannerify]
 };
 
 var addons = {
@@ -92,7 +91,7 @@ var addons = {
   standalone: 'React',
   packageName: 'React (with addons)',
   transforms: [envify({NODE_ENV: 'development'})],
-  after: [es3ify.transform, derequire, simpleBannerify]
+  after: [derequire, simpleBannerify]
 };
 
 var addonsMin = {
@@ -104,7 +103,7 @@ var addonsMin = {
   standalone: 'React',
   packageName: 'React (with addons)',
   transforms: [envify({NODE_ENV: 'production'}), uglifyify],
-  after: [es3ify.transform, derequire, minify, bannerify]
+  after: [derequire, minify, bannerify]
 };
 
 var withCodeCoverageLogging = {
