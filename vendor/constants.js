@@ -17,6 +17,20 @@ function propagate(constants, source) {
 }
 
 var DEV_EXPRESSION = builders.binaryExpression(
+  '===',
+  builders.literal('development'),
+  builders.memberExpression(
+    builders.memberExpression(
+      builders.identifier('process'),
+      builders.identifier('env'),
+      false
+    ),
+    builders.identifier('NODE_ENV'),
+    false
+  )
+);
+
+var DEBUG_EXPRESSION = builders.binaryExpression(
   '!==',
   builders.literal('production'),
   builders.memberExpression(
@@ -39,10 +53,19 @@ var visitors = {
       return false;
     }
 
-    // replace __DEV__ with process.env.NODE_ENV !== 'production'
+    // replace __DEV__ with process.env.NODE_ENV === 'development'
     if (nodePath.value.name === '__DEV__') {
       nodePath.replace(DEV_EXPRESSION);
     }
+
+    // replace __DEBUG__ with process.env.NODE_ENV !== 'production'
+    // __DEBUG__ is used in both the development build and the debug
+    // build, which is basically a dev build with the more expensive
+    // checks turned off.
+    if (nodePath.value.name === '__DEBUG__') {
+      nodePath.replace(DEBUG_EXPRESSION);
+    }
+
     // TODO: bring back constant replacement if we decide we need it
 
     this.traverse(nodePath);
@@ -56,7 +79,7 @@ var visitors = {
       // (dead code removal will remove the extra bytes).
       nodePath.replace(
         builders.conditionalExpression(
-          DEV_EXPRESSION,
+          DEBUG_EXPRESSION,
           node,
           builders.callExpression(
             node.callee,

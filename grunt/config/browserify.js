@@ -60,6 +60,17 @@ var basic = {
   after: [derequire, simpleBannerify]
 };
 
+var debug = {
+  entries: [
+    './build/modules/React.js'
+  ],
+  outfile: './build/react-debug.js',
+  debug: false,
+  standalone: 'React',
+  transforms: [envify({NODE_ENV: 'debug'})],
+  after: [derequire, simpleBannerify]
+}
+
 var min = {
   entries: [
     './build/modules/React.js'
@@ -94,6 +105,18 @@ var addons = {
   after: [derequire, simpleBannerify]
 };
 
+var addonsDebug = {
+  entries: [
+    './build/modules/ReactWithAddons.js'
+  ],
+  outfile: './build/react-with-addons-debug.js',
+  debug: false,
+  standalone: 'React',
+  packageName: 'React (with addons)',
+  transforms: [envify({NODE_ENV: 'debug'})],
+  after: [derequire, simpleBannerify]
+};
+
 var addonsMin = {
   entries: [
     './build/modules/ReactWithAddons.js'
@@ -121,9 +144,11 @@ var withCodeCoverageLogging = {
 
 module.exports = {
   basic: basic,
+  debug: debug,
   min: min,
   transformer: transformer,
   addons: addons,
+  addonsDebug: addonsDebug,
   addonsMin: addonsMin,
   withCodeCoverageLogging: withCodeCoverageLogging
 };
