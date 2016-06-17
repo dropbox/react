@@ -124,7 +124,7 @@ ReactLegacyElementFactory.wrapCreateFactory = function(createFactory) {
       // This is probably a factory created by ReactDOM we unwrap it to get to
       // the underlying string type. It shouldn't have been passed here so we
       // warn.
-      if (__DEV__) {
+      if (__DEBUG__) {
         warnForNonLegacyFactory(type);
       }
       return createFactory(type.type);
@@ -160,7 +160,7 @@ ReactLegacyElementFactory.wrapCreateElement = function(createElement) {
       // This is probably a factory created by ReactDOM we unwrap it to get to
       // the underlying string type. It shouldn't have been passed here so we
       // warn.
-      if (__DEV__) {
+      if (__DEBUG__) {
         warnForNonLegacyFactory(type);
       }
       args = Array.prototype.slice.call(arguments, 0);
@@ -200,7 +200,7 @@ ReactLegacyElementFactory.wrapFactory = function(factory) {
   );
   var legacyElementFactory = function(config, children) {
     // This factory should not be called when JSX is used. Use JSX instead.
-    if (__DEV__) {
+    if (__DEBUG__) {
       warnForLegacyFactoryCall();
     }
     return factory.apply(this, arguments);

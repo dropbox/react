@@ -22,6 +22,7 @@ var emptyFunction = require('emptyFunction');
 
 var warning = emptyFunction;
 
+// TODO (drg): make these warnings report to us in prod
 if (__DEV__) {
   warning = function(condition, format, ...args) {
     if (format === undefined) {

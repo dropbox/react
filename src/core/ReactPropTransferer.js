@@ -139,7 +139,7 @@ var ReactPropTransferer = {
         element.type.displayName
       );
 
-      if (__DEV__) {
+      if (__DEBUG__) {
         if (!didWarn) {
           didWarn = true;
           warning(

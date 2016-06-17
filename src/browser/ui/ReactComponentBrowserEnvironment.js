@@ -84,7 +84,7 @@ var ReactComponentBrowserEnvironment = {
             'and ensure the props are the same client and server side.'
           );
 
-          if (__DEV__) {
+          if (__DEBUG__) {
             console.warn(
               'React attempted to use reuse markup in a container but the ' +
               'checksum was invalid. This generally means that you are ' +
