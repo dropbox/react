@@ -1,0 +1,1 @@
+Dropbox development is currently happening on the v12-dropbox branch, which is a fork of 0.12.0.  As we update our codebase we'll port our patches forward to newer versions.  Check out the README_DROPBOX on that branch for more details on dropbox-specific development.
