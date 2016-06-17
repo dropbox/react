@@ -93,7 +93,7 @@ var visitors = {
       // (dead code removal will remove the extra bytes).
       nodePath.replace(
         builders.conditionalExpression(
-          DEV_EXPRESSION,
+          DEBUG_EXPRESSION,
           node,
           builders.literal(null)
         )
