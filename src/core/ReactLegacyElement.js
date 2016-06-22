@@ -136,7 +136,7 @@ ReactLegacyElementFactory.wrapCreateFactory = function(createFactory) {
       return createFactory(type.type);
     }
 
-    if (__DEV__) {
+    if (__DEBUG__) {
       warnForPlainFunctionType(type);
     }
 
@@ -182,7 +182,7 @@ ReactLegacyElementFactory.wrapCreateElement = function(createElement) {
       return createElement.apply(this, args);
     }
 
-    if (__DEV__) {
+    if (__DEBUG__) {
       warnForPlainFunctionType(type);
     }
 
