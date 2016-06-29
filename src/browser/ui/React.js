@@ -31,6 +31,7 @@ var ReactPerf = require('ReactPerf');
 var ReactPropTypes = require('ReactPropTypes');
 var ReactServerRendering = require('ReactServerRendering');
 var ReactTextComponent = require('ReactTextComponent');
+var warningHandlers = require("WarningHandlers");
 
 var assign = require('Object.assign');
 var deprecated = require('deprecated');
@@ -112,7 +113,9 @@ var React = {
     'isValidElement',
     this,
     ReactElement.isValidElement
-  )
+  ),
+  registerWarningHandler: warningHandlers.register,
+  unregisterWarningHandler: warningHandlers.unregister,
 };
 
 // Inject the runtime into a devtools global hook regardless of browser.
