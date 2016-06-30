@@ -14,3 +14,6 @@ To update:
 * `cp build/react-with-addons.min.js metaserver/metaserver/static/javascript/external/react-0.12.0-prod.min.js`
 * `cp build/react-with-addons-debug.js metaserver/metaserver/static/javascript/external/react-0.12.0-debug.js`
 
+Tips for editing react source:
+
+While the core of the react build system is browserify+grunt, suggesting that it uses the usual node module layout conventions, the way module resolution works is that the build system actually copies all modules into build/modules/ as a flat structure; it does this for any module with the @providesModule comment that it uses as the module name.  So for resolving requires, the directory structure becomes irrelevant.
