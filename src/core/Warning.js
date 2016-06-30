@@ -37,9 +37,7 @@ if (__DEBUG__) {
       var argIndex = 0;
       var msg = 'Warning: ' + format.replace(/%s/g, () => args[argIndex++]);
       console.warn(msg);
-      warningHandlers.forEach(function(hanlder) {
-        handler(msg);
-      });
+      warningHandlers.call(msg);
     }
   };
 }
