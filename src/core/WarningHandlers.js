@@ -12,7 +12,7 @@ function unregister(handler) {
   warningHandlers.splice(warningHandlers.indexOf(handler), 1);
 }
 
-modules.exports = {
+module.exports = {
   register: register,
   unregister: unregister,
 }
