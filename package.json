@@ -26,9 +26,18 @@
     "url": "https://github.com/facebook/react"
   },
   "dependencies": {
+    "babel-traverse": "^6.10.4",
+    "babylon": "^6.8.2",
     "commoner": "^0.10.0",
+    "del": "^2.2.1",
     "esprima-fb": "^6001.1.0-dev-harmony-fb",
-    "jstransform": "^6.3.2"
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.0.0",
+    "gulp-flatten": "^0.2.0",
+    "gulp-util": "^3.0.7",
+    "jstransform": "^6.3.2",
+    "object-assign": "^4.1.0",
+    "through2": "^2.0.1"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
