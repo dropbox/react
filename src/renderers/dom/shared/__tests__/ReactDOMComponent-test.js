@@ -163,6 +163,17 @@ describe('ReactDOMComponent', function() {
       );
     });
 
+    it('should group multiple unknown prop warnings together', function() {
+      spyOn(console, 'error');
+      var container = document.createElement('div');
+      ReactDOM.render(<div foo="bar" baz="qux" />, container);
+      expect(console.error.calls.count(0)).toBe(1);
+      expect(normalizeCodeLocInfo(console.error.calls.argsFor(0)[0])).toBe(
+        'Warning: Unknown props `foo`, `baz` on <div> tag. Remove these props from the element. ' +
+        'For details, see https://fb.me/react-unknown-prop\n    in div (at **)'
+      );
+    });
+
     it('should warn for onDblClick prop', function() {
       spyOn(console, 'error');
       var container = document.createElement('div');
@@ -759,8 +770,8 @@ describe('ReactDOMComponent', function() {
       expect(function() {
         ReactDOM.render(<input>children</input>, container);
       }).toThrowError(
-        'input is a void element tag and must not have `children` or ' +
-        'use `props.dangerouslySetInnerHTML`.'
+        'input is a void element tag and must neither have `children` nor ' +
+        'use `dangerouslySetInnerHTML`.'
       );
     });
 
@@ -773,8 +784,8 @@ describe('ReactDOMComponent', function() {
           container
         );
       }).toThrowError(
-        'input is a void element tag and must not have `children` or use ' +
-        '`props.dangerouslySetInnerHTML`.'
+        'input is a void element tag and must neither have `children` nor use ' +
+        '`dangerouslySetInnerHTML`.'
       );
     });
 
@@ -788,8 +799,8 @@ describe('ReactDOMComponent', function() {
       expect(function() {
         ReactDOM.render(<menu><menuitem>children</menuitem></menu>, container);
       }).toThrowError(
-        'menuitem is a void element tag and must not have `children` or use ' +
-        '`props.dangerouslySetInnerHTML`.'
+        'menuitem is a void element tag and must neither have `children` nor use ' +
+        '`dangerouslySetInnerHTML`.'
       );
 
     });
@@ -943,8 +954,8 @@ describe('ReactDOMComponent', function() {
       expect(function() {
         ReactDOM.render(<X />, container);
       }).toThrowError(
-        'input is a void element tag and must not have `children` ' +
-        'or use `props.dangerouslySetInnerHTML`. Check the render method of X.'
+        'input is a void element tag and must neither have `children` ' +
+        'nor use `dangerouslySetInnerHTML`. Check the render method of X.'
       );
     });
 
@@ -973,8 +984,8 @@ describe('ReactDOMComponent', function() {
       expect(function() {
         ReactDOM.render(<input>children</input>, container);
       }).toThrowError(
-        'input is a void element tag and must not have `children` or use ' +
-        '`props.dangerouslySetInnerHTML`.'
+        'input is a void element tag and must neither have `children` nor use ' +
+        '`dangerouslySetInnerHTML`.'
       );
     });
 
@@ -987,8 +998,8 @@ describe('ReactDOMComponent', function() {
           container
         );
       }).toThrowError(
-        'input is a void element tag and must not have `children` or use ' +
-        '`props.dangerouslySetInnerHTML`.'
+        'input is a void element tag and must neither have `children` nor use ' +
+        '`dangerouslySetInnerHTML`.'
       );
     });
 
