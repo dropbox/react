@@ -8,9 +8,19 @@
  */
 'use strict';
 
+// NOTE: if you mess with this file, you probably will need to `grunt clean`
+// for your changes to takes effect.
+
 var recast = require('recast');
 var types = recast.types;
 var builders = types.builders;
+
+var babylon = require("babylon");
+var evalToString = require("../scripts/error-codes/evalToString");
+var existingErrorMap = require("../scripts/error-codes/codes.json");
+var invertObject = require("../scripts/error-codes/invertObject");
+
+var errorMap = invertObject(existingErrorMap);
 
 function propagate(constants, source) {
   return recast.print(transform(recast.parse(source), constants)).code;
@@ -74,16 +84,28 @@ var visitors = {
   visitCallExpression: function(nodePath) {
     var node = nodePath.value;
     if (node.callee.name === 'invariant') {
-      // Truncate the arguments of invariant(condition, ...)
-      // statements to just the condition based on NODE_ENV
+      // strip the error message out of invariant calls for debug/prod,
+      // and replace with error codes.
       // (dead code removal will remove the extra bytes).
+      var errorCode = recast.print(node.arguments[1]);
+      var babelAst = babylon.parse(errorCode.code);
+      var stringError;
+      if (babelAst.program.body.length > 0) {
+        stringError = evalToString(babelAst.program.body[0].expression);
+      } else {
+        stringError = babelAst.program.directives[0].value.value;
+      }
+      var prodErrorId = parseInt(errorMap[stringError.replace(/\\/g, "")]);
+      var args = [node.arguments[0], builders.literal(prodErrorId)];
+      args = args.concat(node.arguments.slice(2));
+
       nodePath.replace(
         builders.conditionalExpression(
-          DEBUG_EXPRESSION,
+          DEV_EXPRESSION,
           node,
           builders.callExpression(
             node.callee,
-            [node.arguments[0]]
+            args
           )
         )
       );

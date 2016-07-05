@@ -31,17 +31,24 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
   if (!condition) {
     var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
+
+    // DROPBOX mod: use __DEV__ so that the extra dev code can be compiled out
+    // in minified debug/prod versions
+    if (__DEV__) {
       var args = [a, b, c, d, e, f];
       var argIndex = 0;
       error = new Error(
         'Invariant Violation: ' +
         format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+    } else {
+      // DROPBOX mod: hacks for error codes.  In react 15.2, this is done
+      // via a separate reactProdInvariant function, but given react .12
+      // uses a different build system hacking this was much easier.
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.' +
+        '__REACT_ERROR:' + JSON.stringify({code: format, args: [a, b, c, d, e, f]})
       );
     }
 
