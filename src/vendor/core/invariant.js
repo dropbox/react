@@ -47,7 +47,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
       // uses a different build system hacking this was much easier.
       error = new Error(
         'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.' +
+        'for the full error message and additional helpful warnings. ' +
         '__REACT_ERROR:' + JSON.stringify({code: format, args: [a, b, c, d, e, f]})
       );
     }
