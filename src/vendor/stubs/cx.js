@@ -31,7 +31,7 @@ var warning = require('warning');
 var warned = false;
 
 function cx(classNames) {
-  if (__DEV__) {
+  if (__DEBUG__) {
     warning(
       warned,
       'React.addons.classSet will be deprecated in a future version. See ' +

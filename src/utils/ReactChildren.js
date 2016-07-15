@@ -82,7 +82,7 @@ function mapSingleChildIntoContext(traverseContext, child, name, i) {
   var mapResult = mapBookKeeping.mapResult;
 
   var keyUnique = !mapResult.hasOwnProperty(name);
-  if (__DEV__) {
+  if (__DEBUG__) {
     warning(
       keyUnique,
       'ReactChildren.map(...): Encountered two children with the same key, ' +

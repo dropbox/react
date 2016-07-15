@@ -829,7 +829,7 @@ var ReactMount = {
           difference
         );
 
-        if (__DEV__) {
+        if (__DEBUG__) {
           warning(
             false,
             'React attempted to reuse markup in a container but the ' +

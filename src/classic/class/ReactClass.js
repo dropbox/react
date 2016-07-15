@@ -647,7 +647,7 @@ function createChainedFunction(one, two) {
  */
 function bindAutoBindMethod(component, method) {
   var boundMethod = method.bind(component);
-  if (__DEV__) {
+  if (__DEBUG__) {
     boundMethod.__reactBoundContext = component;
     boundMethod.__reactBoundMethod = method;
     boundMethod.__reactBoundArguments = null;
@@ -747,7 +747,7 @@ var ReactClassMixin = {
    * @final
    */
   isMounted: function() {
-    if (__DEV__) {
+    if (__DEBUG__) {
       var owner = ReactCurrentOwner.current;
       if (owner !== null) {
         warning(
@@ -828,7 +828,7 @@ var ReactClass = {
       // This constructor is overridden by mocks. The argument is used
       // by mocks to assert on what gets mounted.
 
-      if (__DEV__) {
+      if (__DEBUG__) {
         warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
@@ -880,7 +880,7 @@ var ReactClass = {
       Constructor.defaultProps = Constructor.getDefaultProps();
     }
 
-    if (__DEV__) {
+    if (__DEBUG__) {
       // This is a tag to indicate that the use of these method names is ok,
       // since it's used with createClass. If it's not, then it's likely a
       // mistake so we'll warn you to use the static property, property
@@ -898,7 +898,7 @@ var ReactClass = {
       'createClass(...): Class specification must implement a `render` method.'
     );
 
-    if (__DEV__) {
+    if (__DEBUG__) {
       warning(
         !Constructor.prototype.componentShouldUpdate,
         '%s has a method called ' +
@@ -918,7 +918,7 @@ var ReactClass = {
 
     // Legacy hook
     Constructor.type = Constructor;
-    if (__DEV__) {
+    if (__DEBUG__) {
       try {
         Object.defineProperty(Constructor, 'type', typeDeprecationDescriptor);
       } catch (x) {

@@ -23,7 +23,7 @@ function flattenSingleChildIntoContext(traverseContext, child, name) {
   // We found a component instance.
   var result = traverseContext;
   var keyUnique = !result.hasOwnProperty(name);
-  if (__DEV__) {
+  if (__DEBUG__) {
     warning(
       keyUnique,
       'flattenChildren(...): Encountered two children with the same key, ' +

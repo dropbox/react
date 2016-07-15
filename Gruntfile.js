@@ -1,5 +1,8 @@
 'use strict';
 
+var assign = require('object-assign');
+var path = require('path');
+var exec = require('child_process').exec;
 var jsxTask = require('./grunt/tasks/jsx');
 var browserifyTask = require('./grunt/tasks/browserify');
 var populistTask = require('./grunt/tasks/populist');
@@ -39,6 +42,21 @@ module.exports = function(grunt) {
   });
 
   grunt.config.set('compress', require('./grunt/config/compress'));
+
+  function spawnGulp(args, opts, done) {
+    grunt.util.spawn({
+      // This could be more flexible (require.resolve & lookup bin in package)
+      // but if it breaks we'll fix it then.
+      cmd: path.join('node_modules', '.bin', 'gulp'),
+      args: args,
+      opts: assign({stdio: 'inherit'}, opts),
+    }, function(err, result, code) {
+      if (err) {
+        grunt.fail.fatal('Something went wrong running gulp: ', result);
+      }
+      done(code === 0);
+    });
+  }
 
   Object.keys(grunt.file.readJSON('package.json').devDependencies)
     .filter(function(npmTaskName) {
@@ -260,8 +278,10 @@ module.exports = function(grunt) {
     'jsx:normal',
     'version-check',
     'browserify:basic',
+    'browserify:debug',
     'browserify:transformer',
     'browserify:addons',
+    'browserify:addonsDebug',
     'browserify:min',
     'browserify:addonsMin',
     'npm-react:release',
@@ -290,6 +310,10 @@ module.exports = function(grunt) {
     'release:docs',
     'release:msg'
   ]);
+
+  grunt.registerTask('extract-errors', function() {
+    spawnGulp(['react:extract-errors'], null, this.async());
+  });
 
   // The default task - build - to keep setup easy
   grunt.registerTask('default', ['build']);

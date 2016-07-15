@@ -30,7 +30,7 @@ var CHILDREN_PROP = keyOf({children: null});
  * @return {ReactElement} a clone of child with props merged in.
  */
 function cloneWithProps(child, props) {
-  if (__DEV__) {
+  if (__DEBUG__) {
     warning(
       !child.ref,
       'You are calling cloneWithProps() on a child with a ref. This is ' +

@@ -96,7 +96,7 @@ function instantiateReactComponent(node, parentCompositeType) {
     );
   }
 
-  if (__DEV__) {
+  if (__DEBUG__) {
     warning(
       typeof instance.construct === 'function' &&
       typeof instance.mountComponent === 'function' &&

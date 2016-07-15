@@ -27,7 +27,7 @@ var warning = require('warning');
  */
 function deprecated(namespace, oldName, newName, ctx, fn) {
   var warned = false;
-  if (__DEV__) {
+  if (__DEBUG__) {
     var newFn = function() {
       warning(
         warned,

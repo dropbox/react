@@ -30,6 +30,7 @@ var ReactPerf = require('ReactPerf');
 var ReactPropTypes = require('ReactPropTypes');
 var ReactReconciler = require('ReactReconciler');
 var ReactServerRendering = require('ReactServerRendering');
+var warningHandlers = require("WarningHandlers");
 
 var assign = require('Object.assign');
 var findDOMNode = require('findDOMNode');
@@ -81,7 +82,9 @@ var React = {
   withContext: ReactContext.withContext,
 
   // Hook for JSX spread, don't use this for anything else.
-  __spread: assign
+  __spread: assign,
+  registerWarningHandler: warningHandlers.register,
+  unregisterWarningHandler: warningHandlers.unregister,
 };
 
 // Inject the runtime into a devtools global hook regardless of browser.

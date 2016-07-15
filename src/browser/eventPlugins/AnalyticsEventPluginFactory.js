@@ -29,7 +29,7 @@
  *     you want analytics on. React currently supports tracking only on a
  *     distinct set of events (See topLevelTypesToAnalyticsEvent).
  *     If the list contains an event that React does not recognize for analytics
- *     tracking, in __DEV__, an error will be thrown. Note that it is case
+ *     tracking, in __DEBUG__, an error will be thrown. Note that it is case
  *     sensitive and space sensitive.
  *
  * By default the AnalyticsEventPlugin is NOT enabled in React. To use it, you
@@ -37,7 +37,7 @@
  * Plugins maintained in the EventPluginHub before your component is rendered.
  * As creation parameters you can specify two arguments:
  *
- * 1. callback: This is a required parameter. In __DEV__, an error will be
+ * 1. callback: This is a required parameter. In __DEBUG__, an error will be
  *    thrown if this param is missing. The callback will be called with the
  *    analyticsData as an argument. The analyticsData will contain one property
  *    per every React component, identified by its data-analytics-id. The value
@@ -106,7 +106,7 @@ var topLevelTypesToAnalyticsEvent = {
   topChange:      'change'
 };
 
-if (__DEV__) {
+if (__DEBUG__) {
   var analyticsEventNameToTopLevelType = {
     'click':        topLevelTypes.topClick,
     'doubleClick':  topLevelTypes.topDoubleClick,
@@ -172,7 +172,7 @@ function extractEvents(
 function initAnalyticsDataForID(analyticsID, analyticsEventsArr) {
   analyticsData[analyticsID] = {};
   analyticsEventsArr.forEach(function(analyticsEvent) {
-    if (__DEV__) {
+    if (__DEBUG__) {
       invariant(
         analyticsEventNameToTopLevelType[analyticsEvent],
         'Invalid analyticsEvent:%s for analyticsID:%s',
@@ -196,7 +196,7 @@ var createAnalyticsPlugin = function(cb, interval) {
     'environment.'
   );
 
-  if (__DEV__) {
+  if (__DEBUG__) {
     invariant(cb, 'createAnalyticsPlugin(...): You must provide a callback.');
   }
   cb = cb || emptyFunction;

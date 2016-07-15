@@ -27,7 +27,7 @@ var warning = require('warning');
  * @return {DOMElement} The root node of this element.
  */
 function findDOMNode(componentOrElement) {
-  if (__DEV__) {
+  if (__DEBUG__) {
     var owner = ReactCurrentOwner.current;
     if (owner !== null) {
       warning(

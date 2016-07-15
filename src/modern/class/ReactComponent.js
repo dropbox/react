@@ -96,7 +96,7 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  * we would like to deprecate them, we're not going to move them over to this
  * modern base class. Instead, we define a getter that warns if it's accessed.
  */
-if (__DEV__) {
+if (__DEBUG__) {
   var deprecatedAPIs = {
     getDOMNode: [
       'getDOMNode',
