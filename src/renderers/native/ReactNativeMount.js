@@ -194,12 +194,12 @@ var ReactNativeMount = {
     if (!instance) {
       return false;
     }
-    if (__DEV__) {
+    if (__PERF__) {
       ReactInstrumentation.debugTool.onBeginFlush();
     }
     ReactNativeMount.unmountComponentFromNode(instance, containerTag);
     delete ReactNativeMount._instancesByContainerID[containerTag];
-    if (__DEV__) {
+    if (__PERF__) {
       ReactInstrumentation.debugTool.onEndFlush();
     }
     return true;

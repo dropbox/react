@@ -123,7 +123,7 @@ function replaceDelimitedText(openingComment, closingComment, stringText) {
     }
   }
 
-  if (__DEV__) {
+  if (__PERF__) {
     ReactInstrumentation.debugTool.onHostOperation({
       instanceID: ReactDOMComponentTree.getInstanceFromNode(openingComment)
         ._debugID,
@@ -134,7 +134,7 @@ function replaceDelimitedText(openingComment, closingComment, stringText) {
 }
 
 var dangerouslyReplaceNodeWithMarkup = Danger.dangerouslyReplaceNodeWithMarkup;
-if (__DEV__) {
+if (__PERF__) {
   dangerouslyReplaceNodeWithMarkup = function(oldChild, markup, prevInstance) {
     Danger.dangerouslyReplaceNodeWithMarkup(oldChild, markup);
     if (prevInstance._debugID !== 0) {
@@ -172,7 +172,7 @@ var DOMChildrenOperations = {
    * @internal
    */
   processUpdates: function(parentNode, updates) {
-    if (__DEV__) {
+    if (__PERF__) {
       var parentNodeDebugID = ReactDOMComponentTree.getInstanceFromNode(
         parentNode,
       )._debugID;
@@ -187,7 +187,7 @@ var DOMChildrenOperations = {
             update.content,
             getNodeAfter(parentNode, update.afterNode),
           );
-          if (__DEV__) {
+          if (__PERF__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
               type: 'insert child',
@@ -204,7 +204,7 @@ var DOMChildrenOperations = {
             update.fromNode,
             getNodeAfter(parentNode, update.afterNode),
           );
-          if (__DEV__) {
+          if (__PERF__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
               type: 'move child',
@@ -214,7 +214,7 @@ var DOMChildrenOperations = {
           break;
         case 'SET_MARKUP':
           setInnerHTML(parentNode, update.content);
-          if (__DEV__) {
+          if (__PERF__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
               type: 'replace children',
@@ -224,7 +224,7 @@ var DOMChildrenOperations = {
           break;
         case 'TEXT_CONTENT':
           setTextContent(parentNode, update.content);
-          if (__DEV__) {
+          if (__PERF__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
               type: 'replace text',
@@ -234,7 +234,7 @@ var DOMChildrenOperations = {
           break;
         case 'REMOVE_NODE':
           removeChild(parentNode, update.fromNode);
-          if (__DEV__) {
+          if (__PERF__) {
             ReactInstrumentation.debugTool.onHostOperation({
               instanceID: parentNodeDebugID,
               type: 'remove child',

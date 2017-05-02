@@ -335,7 +335,7 @@ var ReactCompositeComponent = {
     this._pendingForceUpdate = false;
 
     if (inst.componentWillMount) {
-      if (__DEV__) {
+      if (__PERF__) {
         measureLifeCyclePerf(
           () => inst.componentWillMount(),
           this._debugID,
@@ -371,7 +371,7 @@ var ReactCompositeComponent = {
     }
 
     if (inst.componentDidMount) {
-      if (__DEV__) {
+      if (__PERF__) {
         transaction.getReactMountReady().enqueue(() => {
           measureLifeCyclePerf(
             () => inst.componentDidMount(),
@@ -433,7 +433,7 @@ var ReactCompositeComponent = {
     var Component = this._currentElement.type;
 
     if (doConstruct) {
-      if (__DEV__) {
+      if (__PERF__) {
         return measureLifeCyclePerf(
           () => new Component(publicProps, publicContext, updateQueue),
           this._debugID,
@@ -446,7 +446,7 @@ var ReactCompositeComponent = {
 
     // This can still be an instance in case of factory components
     // but we'll count this as time spent rendering as the more common case.
-    if (__DEV__) {
+    if (__PERF__) {
       return measureLifeCyclePerf(
         () => Component(publicProps, publicContext, updateQueue),
         this._debugID,
@@ -526,7 +526,7 @@ var ReactCompositeComponent = {
     this._renderedComponent = child;
 
     var debugID = 0;
-    if (__DEV__) {
+    if (__PERF__) {
       debugID = this._debugID;
     }
 
@@ -539,7 +539,7 @@ var ReactCompositeComponent = {
       debugID,
     );
 
-    if (__DEV__) {
+    if (__PERF__) {
       if (debugID !== 0) {
         var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
         ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
@@ -579,7 +579,7 @@ var ReactCompositeComponent = {
           );
         }
       } else {
-        if (__DEV__) {
+        if (__PERF__) {
           measureLifeCyclePerf(
             () => inst.componentWillUnmount(),
             this._debugID,
@@ -684,7 +684,7 @@ var ReactCompositeComponent = {
     var childContext;
 
     if (typeof inst.getChildContext === 'function') {
-      if (__DEV__) {
+      if (__PERF__) {
         ReactInstrumentation.debugTool.onBeginProcessingChildContext();
         try {
           childContext = inst.getChildContext();
@@ -865,7 +865,7 @@ var ReactCompositeComponent = {
     // immediately reconciled instead of waiting for the next batch.
     if (willReceive && inst.componentWillReceiveProps) {
       const beforeState = inst.state;
-      if (__DEV__) {
+      if (__PERF__) {
         measureLifeCyclePerf(
           () => inst.componentWillReceiveProps(nextProps, nextContext),
           this._debugID,
@@ -901,7 +901,7 @@ var ReactCompositeComponent = {
       var prevState = inst.state;
       shouldUpdate = willReceive || nextState !== prevState;
       if (inst.shouldComponentUpdate) {
-        if (__DEV__) {
+        if (__PERF__) {
           shouldUpdate = measureLifeCyclePerf(
             () => inst.shouldComponentUpdate(nextProps, nextState, nextContext),
             this._debugID,
@@ -1029,7 +1029,7 @@ var ReactCompositeComponent = {
     }
 
     if (inst.componentWillUpdate) {
-      if (__DEV__) {
+      if (__PERF__) {
         measureLifeCyclePerf(
           () => inst.componentWillUpdate(nextProps, nextState, nextContext),
           this._debugID,
@@ -1056,7 +1056,7 @@ var ReactCompositeComponent = {
     }
 
     if (hasComponentDidUpdate) {
-      if (__DEV__) {
+      if (__PERF__) {
         transaction.getReactMountReady().enqueue(() => {
           measureLifeCyclePerf(
             inst.componentDidUpdate.bind(inst, prevProps, prevState),
@@ -1144,7 +1144,7 @@ var ReactCompositeComponent = {
     var prevRenderedElement = prevComponentInstance._currentElement;
 
     var debugID = 0;
-    if (__DEV__) {
+    if (__PERF__) {
       debugID = this._debugID;
     }
 
@@ -1191,7 +1191,7 @@ var ReactCompositeComponent = {
         );
       }
 
-      if (__DEV__) {
+      if (__PERF__) {
         if (debugID !== 0) {
           var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
           ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
@@ -1226,7 +1226,7 @@ var ReactCompositeComponent = {
     var inst = this._instance;
     var renderedElement;
 
-    if (__DEV__) {
+    if (__PERF__) {
       renderedElement = measureLifeCyclePerf(
         () => inst.render(),
         this._debugID,

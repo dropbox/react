@@ -171,7 +171,7 @@ var DOMPropertyOperations = {
       return;
     }
 
-    if (__DEV__) {
+    if (__PERF__) {
       var payload = {};
       payload[name] = value;
       ReactInstrumentation.debugTool.onHostOperation({
@@ -192,7 +192,7 @@ var DOMPropertyOperations = {
       node.setAttribute(name, '' + value);
     }
 
-    if (__DEV__) {
+    if (__PERF__) {
       var payload = {};
       payload[name] = value;
       ReactInstrumentation.debugTool.onHostOperation({
@@ -211,7 +211,7 @@ var DOMPropertyOperations = {
    */
   deleteValueForAttribute: function(node, name) {
     node.removeAttribute(name);
-    if (__DEV__) {
+    if (__PERF__) {
       ReactInstrumentation.debugTool.onHostOperation({
         instanceID: ReactDOMComponentTree.getInstanceFromNode(node)._debugID,
         type: 'remove attribute',
@@ -248,7 +248,7 @@ var DOMPropertyOperations = {
       node.removeAttribute(name);
     }
 
-    if (__DEV__) {
+    if (__PERF__) {
       ReactInstrumentation.debugTool.onHostOperation({
         instanceID: ReactDOMComponentTree.getInstanceFromNode(node)._debugID,
         type: 'remove attribute',

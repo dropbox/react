@@ -91,7 +91,7 @@ var TRANSACTION_WRAPPERS = [
   ON_DOM_READY_QUEUEING,
 ];
 
-if (__DEV__) {
+if (__PERF__) {
   TRANSACTION_WRAPPERS.push({
     initialize: ReactInstrumentation.debugTool.onBeginFlush,
     close: ReactInstrumentation.debugTool.onEndFlush,

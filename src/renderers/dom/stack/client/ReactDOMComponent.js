@@ -159,7 +159,7 @@ function optionPostMount() {
 }
 
 var setAndValidateContentChildDev = emptyFunction;
-if (__DEV__) {
+if (__PERF__) {
   setAndValidateContentChildDev = function(content) {
     var hasExistingContent = this._contentDebugID != null;
     var debugID = this._debugID;
@@ -1027,7 +1027,7 @@ ReactDOMComponent.Mixin = {
       }
     }
     if (styleUpdates) {
-      if (__DEV__) {
+      if (__PERF__) {
         ReactInstrumentation.debugTool.onHostOperation({
           instanceID: this._debugID,
           type: 'update styles',
@@ -1078,7 +1078,7 @@ ReactDOMComponent.Mixin = {
       this.updateChildren(null, transaction, context);
     } else if (lastHasContentOrHtml && !nextHasContentOrHtml) {
       this.updateTextContent('');
-      if (__DEV__) {
+      if (__PERF__) {
         ReactInstrumentation.debugTool.onSetChildren(this._debugID, []);
       }
     }
@@ -1094,7 +1094,7 @@ ReactDOMComponent.Mixin = {
       if (lastHtml !== nextHtml) {
         this.updateMarkup('' + nextHtml);
       }
-      if (__DEV__) {
+      if (__PERF__) {
         ReactInstrumentation.debugTool.onSetChildren(this._debugID, []);
       }
     } else if (nextChildren != null) {

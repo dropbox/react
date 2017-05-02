@@ -44,7 +44,7 @@ var ReactReconciler = {
     context,
     parentDebugID, // 0 in production and for roots
   ) {
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onBeforeMountComponent(
           internalInstance._debugID,
@@ -66,7 +66,7 @@ var ReactReconciler = {
     ) {
       transaction.getReactMountReady().enqueue(attachRefs, internalInstance);
     }
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onMountComponent(
           internalInstance._debugID,
@@ -91,7 +91,7 @@ var ReactReconciler = {
    * @internal
    */
   unmountComponent: function(internalInstance, safely, skipLifecycle) {
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onBeforeUnmountComponent(
           internalInstance._debugID,
@@ -100,7 +100,7 @@ var ReactReconciler = {
     }
     ReactRef.detachRefs(internalInstance, internalInstance._currentElement);
     internalInstance.unmountComponent(safely, skipLifecycle);
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onUnmountComponent(
           internalInstance._debugID,
@@ -140,7 +140,7 @@ var ReactReconciler = {
       return;
     }
 
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onBeforeUpdateComponent(
           internalInstance._debugID,
@@ -165,7 +165,7 @@ var ReactReconciler = {
       transaction.getReactMountReady().enqueue(attachRefs, internalInstance);
     }
 
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onUpdateComponent(
           internalInstance._debugID,
@@ -199,7 +199,7 @@ var ReactReconciler = {
       );
       return;
     }
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onBeforeUpdateComponent(
           internalInstance._debugID,
@@ -208,7 +208,7 @@ var ReactReconciler = {
       }
     }
     internalInstance.performUpdateIfNecessary(transaction);
-    if (__DEV__) {
+    if (__PERF__) {
       if (internalInstance._debugID !== 0) {
         ReactInstrumentation.debugTool.onUpdateComponent(
           internalInstance._debugID,

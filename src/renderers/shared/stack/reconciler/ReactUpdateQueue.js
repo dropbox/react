@@ -211,8 +211,10 @@ var ReactUpdateQueue = {
     callback,
     callerName,
   ) {
-    if (__DEV__) {
+    if (__PERF__) {
       ReactInstrumentation.debugTool.onSetState();
+    }
+    if (__DEV__) {
       warning(
         partialState != null,
         'setState(...): You passed an undefined or null state object; ' +

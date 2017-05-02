@@ -171,7 +171,7 @@ function batchedMountComponentIntoNode(
  * @see {ReactMount.unmountComponentAtNode}
  */
 function unmountComponentFromNode(instance, container) {
-  if (__DEV__) {
+  if (__PERF__) {
     ReactInstrumentation.debugTool.onBeginFlush();
   }
   ReactReconciler.unmountComponent(
@@ -179,7 +179,7 @@ function unmountComponentFromNode(instance, container) {
     false /* safely */,
     false /* skipLifecycle */,
   );
-  if (__DEV__) {
+  if (__PERF__) {
     ReactInstrumentation.debugTool.onEndFlush();
   }
 
@@ -778,7 +778,7 @@ var ReactMount = {
       ReactDOMComponentTree.precacheNode(instance, container.firstChild);
     }
 
-    if (__DEV__) {
+    if (__PERF__) {
       var hostNode = ReactDOMComponentTree.getInstanceFromNode(
         container.firstChild,
       );
