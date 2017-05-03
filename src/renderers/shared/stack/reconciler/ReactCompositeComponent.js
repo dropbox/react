@@ -348,17 +348,13 @@ var ReactCompositeComponent = {
     }
 
     if (inst.componentDidMount) {
-      if (__DEV__) {
-        transaction.getReactMountReady().enqueue(() => {
-          measureLifeCyclePerf(
-            () => inst.componentDidMount(),
-            this._debugID,
-            'componentDidMount'
-          );
-        });
-      } else {
-        transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
-      }
+      transaction.getReactMountReady().enqueue(() => {
+        measureLifeCyclePerf(
+          () => inst.componentDidMount(),
+          this._debugID,
+          'componentDidMount'
+        );
+      });
     }
 
     return markup;
@@ -370,25 +366,16 @@ var ReactCompositeComponent = {
     publicContext,
     updateQueue
   ) {
-    if (__DEV__) {
-      ReactCurrentOwner.current = this;
-      try {
-        return this._constructComponentWithoutOwner(
-          doConstruct,
-          publicProps,
-          publicContext,
-          updateQueue
-        );
-      } finally {
-        ReactCurrentOwner.current = null;
-      }
-    } else {
+    ReactCurrentOwner.current = this;
+    try {
       return this._constructComponentWithoutOwner(
         doConstruct,
         publicProps,
         publicContext,
         updateQueue
       );
+    } finally {
+      ReactCurrentOwner.current = null;
     }
   },
 
@@ -401,28 +388,20 @@ var ReactCompositeComponent = {
     var Component = this._currentElement.type;
 
     if (doConstruct) {
-      if (__DEV__) {
-        return measureLifeCyclePerf(
-          () => new Component(publicProps, publicContext, updateQueue),
-          this._debugID,
-          'ctor'
-        );
-      } else {
-        return new Component(publicProps, publicContext, updateQueue);
-      }
+      return measureLifeCyclePerf(
+        () => new Component(publicProps, publicContext, updateQueue),
+        this._debugID,
+        'ctor'
+      );
     }
 
     // This can still be an instance in case of factory components
     // but we'll count this as time spent rendering as the more common case.
-    if (__DEV__) {
-      return measureLifeCyclePerf(
-        () => Component(publicProps, publicContext, updateQueue),
-        this._debugID,
-        'render'
-      );
-    } else {
-      return Component(publicProps, publicContext, updateQueue);
-    }
+    return measureLifeCyclePerf(
+      () => Component(publicProps, publicContext, updateQueue),
+      this._debugID,
+      'render'
+    );  
   },
 
   performInitialMountWithErrorHandling: function(
@@ -458,21 +437,14 @@ var ReactCompositeComponent = {
   performInitialMount: function(renderedElement, hostParent, hostContainerInfo, transaction, context) {
     var inst = this._instance;
 
-    var debugID = 0;
-    if (__DEV__) {
-      debugID = this._debugID;
-    }
+    var debugID = this._debugID;
 
     if (inst.componentWillMount) {
-      if (__DEV__) {
-        measureLifeCyclePerf(
-          () => inst.componentWillMount(),
-          debugID,
-          'componentWillMount'
-        );
-      } else {
-        inst.componentWillMount();
-      }
+      measureLifeCyclePerf(
+        () => inst.componentWillMount(),
+        debugID,
+        'componentWillMount'
+      );
       // When mounting, calls to `setState` by `componentWillMount` will set
       // `this._pendingStateQueue` without triggering a re-render.
       if (this._pendingStateQueue) {
@@ -502,11 +474,9 @@ var ReactCompositeComponent = {
       debugID
     );
 
-    if (__DEV__) {
-      if (debugID !== 0) {
-        var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
-        ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
-      }
+    if (debugID !== 0) {
+      var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
+      ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
     }
 
     return markup;
@@ -536,15 +506,11 @@ var ReactCompositeComponent = {
         var name = this.getName() + '.componentWillUnmount()';
         ReactErrorUtils.invokeGuardedCallback(name, inst.componentWillUnmount.bind(inst));
       } else {
-        if (__DEV__) {
-          measureLifeCyclePerf(
-            () => inst.componentWillUnmount(),
-            this._debugID,
-            'componentWillUnmount'
-          );
-        } else {
-          inst.componentWillUnmount();
-        }
+        measureLifeCyclePerf(
+          () => inst.componentWillUnmount(),
+          this._debugID,
+          'componentWillUnmount'
+        );
       }
     }
 
@@ -637,15 +603,11 @@ var ReactCompositeComponent = {
     var childContext;
 
     if (inst.getChildContext) {
-      if (__DEV__) {
-        ReactInstrumentation.debugTool.onBeginProcessingChildContext();
-        try {
-          childContext = inst.getChildContext();
-        } finally {
-          ReactInstrumentation.debugTool.onEndProcessingChildContext();
-        }
-      } else {
+      ReactInstrumentation.debugTool.onBeginProcessingChildContext();
+      try {
         childContext = inst.getChildContext();
+      } finally {
+        ReactInstrumentation.debugTool.onEndProcessingChildContext();
       }
     }
 
@@ -797,15 +759,11 @@ var ReactCompositeComponent = {
     // _pendingStateQueue which will ensure that any state updates gets
     // immediately reconciled instead of waiting for the next batch.
     if (willReceive && inst.componentWillReceiveProps) {
-      if (__DEV__) {
-        measureLifeCyclePerf(
-          () => inst.componentWillReceiveProps(nextProps, nextContext),
-          this._debugID,
-          'componentWillReceiveProps',
-        );
-      } else {
-        inst.componentWillReceiveProps(nextProps, nextContext);
-      }
+      measureLifeCyclePerf(
+        () => inst.componentWillReceiveProps(nextProps, nextContext),
+        this._debugID,
+        'componentWillReceiveProps',
+      );
     }
 
     var nextState = this._processPendingState(nextProps, nextContext);
@@ -813,15 +771,11 @@ var ReactCompositeComponent = {
 
     if (!this._pendingForceUpdate) {
       if (inst.shouldComponentUpdate) {
-        if (__DEV__) {
-          shouldUpdate = measureLifeCyclePerf(
-            () => inst.shouldComponentUpdate(nextProps, nextState, nextContext),
-            this._debugID,
-            'shouldComponentUpdate'
-          );
-        } else {
-          shouldUpdate = inst.shouldComponentUpdate(nextProps, nextState, nextContext);
-        }
+        shouldUpdate = measureLifeCyclePerf(
+          () => inst.shouldComponentUpdate(nextProps, nextState, nextContext),
+          this._debugID,
+          'shouldComponentUpdate'
+        );
       } else {
         if (this._compositeType === CompositeTypes.PureClass) {
           shouldUpdate =
@@ -925,15 +879,11 @@ var ReactCompositeComponent = {
     }
 
     if (inst.componentWillUpdate) {
-      if (__DEV__) {
-        measureLifeCyclePerf(
-          () => inst.componentWillUpdate(nextProps, nextState, nextContext),
-          this._debugID,
-          'componentWillUpdate'
-        );
-      } else {
-        inst.componentWillUpdate(nextProps, nextState, nextContext);
-      }
+      measureLifeCyclePerf(
+        () => inst.componentWillUpdate(nextProps, nextState, nextContext),
+        this._debugID,
+        'componentWillUpdate'
+      );
     }
 
     this._currentElement = nextElement;
@@ -945,20 +895,13 @@ var ReactCompositeComponent = {
     this._updateRenderedComponent(transaction, unmaskedContext);
 
     if (hasComponentDidUpdate) {
-      if (__DEV__) {
-        transaction.getReactMountReady().enqueue(() => {
-          measureLifeCyclePerf(
-            inst.componentDidUpdate.bind(inst, prevProps, prevState, prevContext),
-            this._debugID,
-            'componentDidUpdate'
-          );
-        });
-      } else {
-        transaction.getReactMountReady().enqueue(
+      transaction.getReactMountReady().enqueue(() => {
+        measureLifeCyclePerf(
           inst.componentDidUpdate.bind(inst, prevProps, prevState, prevContext),
-          inst
+          this._debugID,
+          'componentDidUpdate'
         );
-      }
+      });
     }
   },
 
@@ -974,9 +917,7 @@ var ReactCompositeComponent = {
     var nextRenderedElement = this._renderValidatedComponent();
 
     var debugID = 0;
-    if (__DEV__) {
-      debugID = this._debugID;
-    }
+    debugID = this._debugID;
 
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
@@ -1006,11 +947,9 @@ var ReactCompositeComponent = {
         debugID
       );
 
-      if (__DEV__) {
-        if (debugID !== 0) {
-          var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
-          ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
-        }
+      if (debugID !== 0) {
+        var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
+        ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
       }
 
       this._replaceNodeWithMarkup(
@@ -1041,15 +980,11 @@ var ReactCompositeComponent = {
     var inst = this._instance;
     var renderedElement;
 
-    if (__DEV__) {
-      renderedElement = measureLifeCyclePerf(
-        () => inst.render(),
-        this._debugID,
-        'render'
-      );
-    } else {
-      renderedElement = inst.render();
-    }
+    renderedElement = measureLifeCyclePerf(
+      () => inst.render(),
+      this._debugID,
+      'render'
+    );
 
     if (__DEV__) {
       // We allow auto-mocks to proceed as if they're returning null.

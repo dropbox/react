@@ -171,13 +171,9 @@ function batchedMountComponentIntoNode(
  * @see {ReactMount.unmountComponentAtNode}
  */
 function unmountComponentFromNode(instance, container, safely) {
-  if (__DEV__) {
-    ReactInstrumentation.debugTool.onBeginFlush();
-  }
+  ReactInstrumentation.debugTool.onBeginFlush();
   ReactReconciler.unmountComponent(instance, safely);
-  if (__DEV__) {
-    ReactInstrumentation.debugTool.onEndFlush();
-  }
+  ReactInstrumentation.debugTool.onEndFlush();
 
   if (container.nodeType === DOC_NODE_TYPE) {
     container = container.documentElement;
@@ -271,9 +267,8 @@ var TopLevelWrapper = function() {
   this.rootID = topLevelRootCounter++;
 };
 TopLevelWrapper.prototype.isReactComponent = {};
-if (__DEV__) {
-  TopLevelWrapper.displayName = 'TopLevelWrapper';
-}
+
+TopLevelWrapper.displayName = 'TopLevelWrapper';
 TopLevelWrapper.prototype.render = function() {
   return this.props.child;
 };
@@ -726,15 +721,13 @@ var ReactMount = {
       ReactDOMComponentTree.precacheNode(instance, container.firstChild);
     }
 
-    if (__DEV__) {
-      var hostNode = ReactDOMComponentTree.getInstanceFromNode(container.firstChild);
-      if (hostNode._debugID !== 0) {
-        ReactInstrumentation.debugTool.onHostOperation({
-          instanceID: hostNode._debugID,
-          type: 'mount',
-          payload: markup.toString(),
-        });
-      }
+    var hostNode = ReactDOMComponentTree.getInstanceFromNode(container.firstChild);
+    if (hostNode._debugID !== 0) {
+      ReactInstrumentation.debugTool.onHostOperation({
+        instanceID: hostNode._debugID,
+        type: 'mount',
+        payload: markup.toString(),
+      });
     }
   },
 };

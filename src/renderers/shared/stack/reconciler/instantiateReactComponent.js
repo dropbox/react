@@ -135,9 +135,7 @@ function instantiateReactComponent(node, shouldHaveDebugID) {
   instance._mountIndex = 0;
   instance._mountImage = null;
 
-  if (__DEV__) {
-    instance._debugID = shouldHaveDebugID ? getNextDebugID() : 0;
-  }
+  instance._debugID = shouldHaveDebugID ? getNextDebugID() : 0;
 
   // Internal instances should fully constructed at this point, so they should
   // not get any new fields added to them at this point.

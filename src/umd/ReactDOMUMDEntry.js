@@ -15,14 +15,13 @@ var React = require('React');
 var ReactDOM = require('ReactDOM');
 
 var ReactDOMUMDEntry = ReactDOM;
-
-if (__DEV__) {
-  ReactDOMUMDEntry.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
-    // ReactPerf and ReactTestUtils currently only work with the DOM renderer
-    // so we expose them from here, but only in DEV mode.
+ReactDOMUMDEntry.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
     ReactPerf: require('ReactPerf'),
-    ReactTestUtils: require('ReactTestUtils'),
-  };
+}
+if (__DEV__) {
+// ReactPerf and ReactTestUtils currently only work with the DOM renderer
+// so we expose them from here, but only in DEV mode.
+  ReactDOMUMDEntry.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactTestUtils = require('ReactTestUtils');
 }
 
 // Inject ReactDOM into React for the addons UMD build that depends on ReactDOM (TransitionGroup).

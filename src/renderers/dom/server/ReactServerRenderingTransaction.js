@@ -24,12 +24,11 @@ var ReactServerUpdateQueue = require('ReactServerUpdateQueue');
  */
 var TRANSACTION_WRAPPERS = [];
 
-if (__DEV__) {
-  TRANSACTION_WRAPPERS.push({
-    initialize: ReactInstrumentation.debugTool.onBeginFlush,
-    close: ReactInstrumentation.debugTool.onEndFlush,
-  });
-}
+
+TRANSACTION_WRAPPERS.push({
+  initialize: ReactInstrumentation.debugTool.onBeginFlush,
+  close: ReactInstrumentation.debugTool.onEndFlush,
+});
 
 var noopCallbackQueue = {
   enqueue: function() {},

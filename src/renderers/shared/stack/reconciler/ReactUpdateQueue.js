@@ -231,8 +231,8 @@ var ReactUpdateQueue = {
    * @internal
    */
   enqueueSetState: function(publicInstance, partialState) {
+    ReactInstrumentation.debugTool.onSetState();
     if (__DEV__) {
-      ReactInstrumentation.debugTool.onSetState();
       warning(
         partialState != null,
         'setState(...): You passed an undefined or null state object; ' +

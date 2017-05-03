@@ -50,11 +50,9 @@ function renderToStringImpl(element, makeStaticMarkup) {
         emptyObject,
         0 /* parentDebugID */
       );
-      if (__DEV__) {
-        ReactInstrumentation.debugTool.onUnmountComponent(
-          componentInstance._debugID
-        );
-      }
+      ReactInstrumentation.debugTool.onUnmountComponent(
+        componentInstance._debugID
+      );
       if (!makeStaticMarkup) {
         markup = ReactMarkupChecksum.addChecksumToMarkup(markup);
       }
