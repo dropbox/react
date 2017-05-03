@@ -27,7 +27,11 @@ var ReactTransitionChildMapping = {
       return children;
     }
 
-    return flattenChildren(children, selfDebugID);
+    if (__DEV__) {
+      return flattenChildren(children, selfDebugID);
+    }
+
+    return flattenChildren(children);
   },
 
   /**

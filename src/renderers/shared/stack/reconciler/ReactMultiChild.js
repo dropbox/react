@@ -180,17 +180,22 @@ var ReactMultiChild = {
   Mixin: {
 
     _reconcilerInstantiateChildren: function(nestedChildren, transaction, context) {
-      var selfDebugID = getDebugID(this);
-      if (this._currentElement) {
-        try {
-          ReactCurrentOwner.current = this._currentElement._owner;
-          return ReactChildReconciler.instantiateChildren(
-            nestedChildren, transaction, context, selfDebugID
-          );
-        } finally {
-          ReactCurrentOwner.current = null;
+      if (__DEV__) {
+        var selfDebugID = getDebugID(this);
+        if (this._currentElement) {
+          try {
+            ReactCurrentOwner.current = this._currentElement._owner;
+            return ReactChildReconciler.instantiateChildren(
+              nestedChildren, transaction, context, selfDebugID
+            );
+          } finally {
+            ReactCurrentOwner.current = null;
+          }
         }
       }
+      return ReactChildReconciler.instantiateChildren(
+        nestedChildren, transaction, context
+      );
     },
 
     _reconcilerUpdateChildren: function(
@@ -203,28 +208,42 @@ var ReactMultiChild = {
     ) {
       var nextChildren;
       var selfDebugID = 0;
-
-      selfDebugID = getDebugID(this);
-      if (this._currentElement) {
-        try {
-          ReactCurrentOwner.current = this._currentElement._owner;
-          nextChildren = flattenChildren(nextNestedChildrenElements, selfDebugID);
-        } finally {
-          ReactCurrentOwner.current = null;
+      if (__DEV__) {
+        selfDebugID = getDebugID(this);
+        if (this._currentElement) {
+          try {
+            ReactCurrentOwner.current = this._currentElement._owner;
+            nextChildren = flattenChildren(nextNestedChildrenElements, selfDebugID);
+          } finally {
+            ReactCurrentOwner.current = null;
+          }
+          ReactChildReconciler.updateChildren(
+            prevChildren,
+            nextChildren,
+            mountImages,
+            removedNodes,
+            transaction,
+            this,
+            this._hostContainerInfo,
+            context,
+            selfDebugID
+          );
+          return nextChildren;
         }
-        ReactChildReconciler.updateChildren(
-          prevChildren,
-          nextChildren,
-          mountImages,
-          removedNodes,
-          transaction,
-          this,
-          this._hostContainerInfo,
-          context,
-          selfDebugID
-        );
-        return nextChildren;
       }
+      nextChildren = flattenChildren(nextNestedChildrenElements, selfDebugID);
+      ReactChildReconciler.updateChildren(
+        prevChildren,
+        nextChildren,
+        mountImages,
+        removedNodes,
+        transaction,
+        this,
+        this._hostContainerInfo,
+        context,
+        selfDebugID
+      );
+      return nextChildren;
     },
 
     /**

@@ -366,16 +366,25 @@ var ReactCompositeComponent = {
     publicContext,
     updateQueue
   ) {
-    ReactCurrentOwner.current = this;
-    try {
+    if (__DEV__) {
+      ReactCurrentOwner.current = this;
+      try {
+        return this._constructComponentWithoutOwner(
+          doConstruct,
+          publicProps,
+          publicContext,
+          updateQueue
+        );
+      } finally {
+        ReactCurrentOwner.current = null;
+      }
+    } else {
       return this._constructComponentWithoutOwner(
         doConstruct,
         publicProps,
         publicContext,
         updateQueue
       );
-    } finally {
-      ReactCurrentOwner.current = null;
     }
   },
 
