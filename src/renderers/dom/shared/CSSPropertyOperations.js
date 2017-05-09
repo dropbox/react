@@ -192,13 +192,11 @@ var CSSPropertyOperations = {
    * @param {ReactDOMComponent} component
    */
   setValueForStyles: function(node, styles, component) {
-    if (__DEV__) {
-      ReactInstrumentation.debugTool.onHostOperation({
-        instanceID: component._debugID,
-        type: 'update styles',
-        payload: styles,
-      });
-    }
+    ReactInstrumentation.debugTool.onHostOperation({
+      instanceID: component._debugID,
+      type: 'update styles',
+      payload: styles,
+    });
 
     var style = node.style;
     for (var styleName in styles) {

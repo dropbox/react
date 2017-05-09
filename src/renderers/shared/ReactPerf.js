@@ -43,20 +43,10 @@ function warnInProduction() {
 }
 
 function getLastMeasurements() {
-  if (!__DEV__) {
-    warnInProduction();
-    return [];
-  }
-
   return ReactDebugTool.getFlushHistory();
 }
 
 function getExclusive(flushHistory = getLastMeasurements()) {
-  if (!__DEV__) {
-    warnInProduction();
-    return [];
-  }
-
   var aggregatedStats = {};
   var affectedIDs = {};
 
@@ -107,11 +97,6 @@ function getExclusive(flushHistory = getLastMeasurements()) {
 }
 
 function getInclusive(flushHistory = getLastMeasurements()) {
-  if (!__DEV__) {
-    warnInProduction();
-    return [];
-  }
-
   var aggregatedStats = {};
   var affectedIDs = {};
 
@@ -180,11 +165,6 @@ function getInclusive(flushHistory = getLastMeasurements()) {
 }
 
 function getWasted(flushHistory = getLastMeasurements()) {
-  if (!__DEV__) {
-    warnInProduction();
-    return [];
-  }
-
   var aggregatedStats = {};
   var affectedIDs = {};
 
@@ -278,10 +258,6 @@ function getWasted(flushHistory = getLastMeasurements()) {
 }
 
 function getOperations(flushHistory = getLastMeasurements()) {
-  if (!__DEV__) {
-    warnInProduction();
-    return [];
-  }
 
   var stats = [];
   flushHistory.forEach((flush, flushIndex) => {
@@ -306,10 +282,6 @@ function getOperations(flushHistory = getLastMeasurements()) {
 }
 
 function printExclusive(flushHistory?: FlushHistory) {
-  if (!__DEV__) {
-    warnInProduction();
-    return;
-  }
 
   var stats = getExclusive(flushHistory);
   var table = stats.map(item => {
@@ -332,10 +304,6 @@ function printExclusive(flushHistory?: FlushHistory) {
 }
 
 function printInclusive(flushHistory?: FlushHistory) {
-  if (!__DEV__) {
-    warnInProduction();
-    return;
-  }
 
   var stats = getInclusive(flushHistory);
   var table = stats.map(item => {
@@ -351,10 +319,6 @@ function printInclusive(flushHistory?: FlushHistory) {
 }
 
 function printWasted(flushHistory?: FlushHistory) {
-  if (!__DEV__) {
-    warnInProduction();
-    return;
-  }
 
   var stats = getWasted(flushHistory);
   var table = stats.map(item => {
@@ -370,10 +334,6 @@ function printWasted(flushHistory?: FlushHistory) {
 }
 
 function printOperations(flushHistory?: FlushHistory) {
-  if (!__DEV__) {
-    warnInProduction();
-    return;
-  }
 
   var stats = getOperations(flushHistory);
   var table = stats.map(stat => ({
@@ -412,29 +372,16 @@ function getMeasurementsSummaryMap(measurements: FlushHistory) {
 }
 
 function start() {
-  if (!__DEV__) {
-    warnInProduction();
-    return;
-  }
 
   ReactDebugTool.beginProfiling();
 }
 
 function stop() {
-  if (!__DEV__) {
-    warnInProduction();
-    return;
-  }
 
   ReactDebugTool.endProfiling();
 }
 
 function isRunning() {
-  if (!__DEV__) {
-    warnInProduction();
-    return false;
-  }
-
   return ReactDebugTool.isProfiling();
 }
 

@@ -140,29 +140,27 @@ function processQueue(inst, updateQueue) {
 }
 
 var setChildrenForInstrumentation = emptyFunction;
-if (__DEV__) {
-  var getDebugID = function(inst) {
-    if (!inst._debugID) {
-      // Check for ART-like instances. TODO: This is silly/gross.
-      var internal;
-      if ((internal = ReactInstanceMap.get(inst))) {
-        inst = internal;
-      }
+var getDebugID = function(inst) {
+  if (!inst._debugID) {
+    // Check for ART-like instances. TODO: This is silly/gross.
+    var internal;
+    if ((internal = ReactInstanceMap.get(inst))) {
+      inst = internal;
     }
-    return inst._debugID;
-  };
-  setChildrenForInstrumentation = function(children) {
-    var debugID = getDebugID(this);
-    // TODO: React Native empty components are also multichild.
-    // This means they still get into this method but don't have _debugID.
-    if (debugID !== 0) {
-      ReactInstrumentation.debugTool.onSetChildren(
-        debugID,
-        children ? Object.keys(children).map(key => children[key]._debugID) : []
-      );
-    }
-  };
-}
+  }
+  return inst._debugID;
+};
+setChildrenForInstrumentation = function(children) {
+  var debugID = getDebugID(this);
+  // TODO: React Native empty components are also multichild.
+  // This means they still get into this method but don't have _debugID.
+  if (debugID !== 0) {
+    ReactInstrumentation.debugTool.onSetChildren(
+      debugID,
+      children ? Object.keys(children).map(key => children[key]._debugID) : []
+    );
+  }
+};
 
 /**
  * ReactMultiChild are capable of reconciling multiple children.
@@ -268,9 +266,7 @@ var ReactMultiChild = {
         if (children.hasOwnProperty(name)) {
           var child = children[name];
           var selfDebugID = 0;
-          if (__DEV__) {
-            selfDebugID = getDebugID(this);
-          }
+          selfDebugID = getDebugID(this);
           var mountImage = ReactReconciler.mountComponent(
             child,
             transaction,
@@ -284,9 +280,7 @@ var ReactMultiChild = {
         }
       }
 
-      if (__DEV__) {
-        setChildrenForInstrumentation.call(this, children);
-      }
+      setChildrenForInstrumentation.call(this, children);
 
       return mountImages;
     },
@@ -422,9 +416,7 @@ var ReactMultiChild = {
       }
       this._renderedChildren = nextChildren;
 
-      if (__DEV__) {
-        setChildrenForInstrumentation.call(this, nextChildren);
-      }
+      setChildrenForInstrumentation.call(this, nextChildren);
     },
 
     /**

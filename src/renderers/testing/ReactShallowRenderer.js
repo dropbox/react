@@ -36,9 +36,7 @@ class NoopInternalComponent {
     this._renderedOutput = element;
     this._currentElement = element;
 
-    if (__DEV__) {
-      this._debugID = getNextDebugID();
-    }
+    this._debugID = getNextDebugID();
   }
   mountComponent() {}
   receiveComponent(element) {
@@ -56,9 +54,7 @@ class NoopInternalComponent {
 
 var ShallowComponentWrapper = function(element) {
   // TODO: Consolidate with instantiateReactComponent
-  if (__DEV__) {
-    this._debugID = getNextDebugID();
-  }
+  this._debugID = getNextDebugID();
 
   this.construct(element);
 };

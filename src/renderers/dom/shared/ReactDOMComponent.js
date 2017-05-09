@@ -250,34 +250,33 @@ function optionPostMount() {
   ReactDOMOption.postMountWrapper(inst);
 }
 
-var setAndValidateContentChildDev = emptyFunction;
-if (__DEV__) {
-  setAndValidateContentChildDev = function(content) {
-    var hasExistingContent = this._contentDebugID != null;
-    var debugID = this._debugID;
-    // This ID represents the inlined child that has no backing instance:
-    var contentDebugID = -debugID;
+var setAndValidateContentChildDev = function(content) {
+  var hasExistingContent = this._contentDebugID != null;
+  var debugID = this._debugID;
+  // This ID represents the inlined child that has no backing instance:
+  var contentDebugID = -debugID;
 
-    if (content == null) {
-      if (hasExistingContent) {
-        ReactInstrumentation.debugTool.onUnmountComponent(this._contentDebugID);
-      }
-      this._contentDebugID = null;
-      return;
-    }
-
-    validateDOMNesting(null, String(content), this, this._ancestorInfo);
-    this._contentDebugID = contentDebugID;
+  if (content == null) {
     if (hasExistingContent) {
-      ReactInstrumentation.debugTool.onBeforeUpdateComponent(contentDebugID, content);
-      ReactInstrumentation.debugTool.onUpdateComponent(contentDebugID);
-    } else {
-      ReactInstrumentation.debugTool.onBeforeMountComponent(contentDebugID, content, debugID);
-      ReactInstrumentation.debugTool.onMountComponent(contentDebugID);
-      ReactInstrumentation.debugTool.onSetChildren(debugID, [contentDebugID]);
+      ReactInstrumentation.debugTool.onUnmountComponent(this._contentDebugID);
     }
-  };
-}
+    this._contentDebugID = null;
+    return;
+  }
+
+  if (__DEV__) {
+    validateDOMNesting(null, String(content), this, this._ancestorInfo);
+  }
+  this._contentDebugID = contentDebugID;
+  if (hasExistingContent) {
+    ReactInstrumentation.debugTool.onBeforeUpdateComponent(contentDebugID, content);
+    ReactInstrumentation.debugTool.onUpdateComponent(contentDebugID);
+  } else {
+    ReactInstrumentation.debugTool.onBeforeMountComponent(contentDebugID, content, debugID);
+    ReactInstrumentation.debugTool.onMountComponent(contentDebugID);
+    ReactInstrumentation.debugTool.onSetChildren(debugID, [contentDebugID]);
+  }
+};
 
 // There are so many media events, it makes sense to just
 // maintain a list rather than create a `trapBubbledEvent` for each
@@ -1098,9 +1097,7 @@ ReactDOMComponent.Mixin = {
       this.updateChildren(null, transaction, context);
     } else if (lastHasContentOrHtml && !nextHasContentOrHtml) {
       this.updateTextContent('');
-      if (__DEV__) {
-        ReactInstrumentation.debugTool.onSetChildren(this._debugID, []);
-      }
+      ReactInstrumentation.debugTool.onSetChildren(this._debugID, []);
     }
 
     if (nextContent != null) {
@@ -1114,9 +1111,7 @@ ReactDOMComponent.Mixin = {
       if (lastHtml !== nextHtml) {
         this.updateMarkup('' + nextHtml);
       }
-      if (__DEV__) {
-        ReactInstrumentation.debugTool.onSetChildren(this._debugID, []);
-      }
+      ReactInstrumentation.debugTool.onSetChildren(this._debugID, []);
     } else if (nextChildren != null) {
       if (__DEV__) {
         setAndValidateContentChildDev.call(this, null);

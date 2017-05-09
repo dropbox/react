@@ -33,16 +33,16 @@ React.addons = {
   shallowCompare: shallowCompare,
   update: update,
 };
+Object.defineProperty(React.addons, 'Perf', {
+  enumerable: true,
+  get: function() {
+    return ReactAddonsDOMDependencies.getReactPerf();
+  },
+});
 
 if (__DEV__) {
   // For the UMD build we get these lazily from the global since they're tied
   // to the DOM renderer and it hasn't loaded yet.
-  Object.defineProperty(React.addons, 'Perf', {
-    enumerable: true,
-    get: function() {
-      return ReactAddonsDOMDependencies.getReactPerf();
-    },
-  });
   Object.defineProperty(React.addons, 'TestUtils', {
     enumerable: true,
     get: function() {
