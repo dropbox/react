@@ -17,18 +17,9 @@ var React = require('React');
 var ReactUMDEntry = Object.assign(React, {
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
     ReactCurrentOwner: require('ReactCurrentOwner'),
+    ReactComponentTreeHook: require('ReactComponentTreeHook'),
+    getNextDebugID: require('getNextDebugID'),
   },
 });
-
-if (__DEV__) {
-  Object.assign(
-    ReactUMDEntry.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
-    {
-      // ReactComponentTreeHook should not be included in production.
-      ReactComponentTreeHook: require('ReactComponentTreeHook'),
-      getNextDebugID: require('getNextDebugID'),
-    }
-  );
-}
 
 module.exports = ReactUMDEntry;
